@@ -1,4 +1,5 @@
 import { defineBuildConfig } from 'unbuild'
+import tsPlugin from '@rollup/plugin-typescript'
 
 export default defineBuildConfig({
   entries: ['src/index'],
@@ -10,6 +11,14 @@ export default defineBuildConfig({
     inlineDependencies: true,
     resolve: {
       extensions: ['.ts', '.tsx'],
+    },
+  },
+  hooks: {
+    'rollup:options': (ctx, options) => {
+      if (!Array.isArray(options.plugins)) {
+        options.plugins = options.plugins ? [options.plugins] : []
+      }
+      options.plugins.push(tsPlugin())
     },
   },
 })
